@@ -11,20 +11,28 @@ function get(){
     // .finally( ()=> console.log("finally, This function always runs...")) 
     
     const info = document.getElementById('people');
-    const DomImg = document.createElement("img");
     addressBook.map(person =>{
       console.log(person);
       const li = document.createElement("li");
       const button = document.createElement("button");
+      const image = document.createElement("img");
       button.innerHTML = "Full info";
       button.addEventListener('click', function(){fullInfo();});
       li.appendChild(button);
-      li.appendChild(document.createTextNode(" - " + person.name.first + " - " + `<img src="${person.picture.thumbnail}">`));
-      li.appendChild(DomImg);
+      li.appendChild(document.createTextNode(" - " + person.name.first + " - "));
+      image.src = person.picture.thumbnail;
+      li.appendChild(image);
       info.append(li);
     });
 }
 
+
+function fullInfo(personTwo){
+  console.log(personTwo);
+  const li = document.createElement("li");
+  li.appendChild(document.createTextNode(" - " + personTwo.cell + " - " + `<br>` + personTwo.dob.age + `<br>` + personTwo.dob.date));
+  li.appendChild(li);
+}
 
 
 
