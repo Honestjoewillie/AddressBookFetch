@@ -1,38 +1,66 @@
-const addressBook = [];
+//my array where all info will go
+let addressBook = [];
+let addressBookDom = document.querySelector("#people")
 
 function get(){
   fetch('https://randomuser.me/api/')
     .then( res => res.json())
-    .then( data => {addressBook.push(data.results["0"])
+    .then( data => {
+      //put data in addressbook
+      addressBook = data.results;
+      //sorty the users by name
+      addressBook.sort((a, b) => a.name.first < b.name.first ? -1 : 1);
+      //call my function
+      showPeople(addressBook);
     })
+  }
+
+const showPeople = (array) =>{
+  //loop the people by their value and index so I have their full info matching their place
+  array.forEach( (val, idx) =>{
+    //where their info is displayed
+    person = document.createElement('div');
+    person.className = 'book';
+    val.gender === 'female' ? person.setAttribute('class', 'female book') : person.setAttribute('class', 'male book');
+    person.innerHTML =
+    `<div class="name">${val.name.first} ${val.name.last}</div>
+    <div>
+    <img src="${val.picture.large}">
+    <div class="info_card" id="user${idx}">
+    ${val.email}<br>
+    ${val.phone}<br>
+    ${val.location.street}<br>
+    ${val.location.city}, ${val.location.state}<br>
+    </div>
+    <div>
+      <button onclick="fullInfo(${idx})">Full info</button>
+    </div>`
+    addressBookDom.appendChild(person);
+  })
+}  
     //console.log(addressBook)
     
     // .catch( error => console.log("oops, looks like we got an error: ", error))
     // .finally( ()=> console.log("finally, This function always runs...")) 
     
-    const info = document.getElementById('people');
-    addressBook.map(person =>{
-      console.log(person);
-      const li = document.createElement("li");
-      const button = document.createElement("button");
-      const image = document.createElement("img");
-      button.innerHTML = "Full info";
-      button.addEventListener('click', function(){fullInfo();});
-      li.appendChild(button);
-      li.appendChild(document.createTextNode(" - " + person.name.first + " - "));
-      image.src = person.picture.thumbnail;
-      li.appendChild(image);
-      info.append(li);
-    });
-}
+    // const info = document.getElementById('people');
+    // addressBook.map(person =>{
+    //   console.log(person);
+    //   const li = document.createElement("li");
+    //   const button = document.createElement("button");
+    //   const image = document.createElement("img");
+    //   button.innerHTML = "Full info";
+    //   button.addEventListener('click', function(){fullInfo();});
+    //   li.appendChild(button);
+    //   li.appendChild(document.createTextNode(" - " + person.name.first + " - "));
+    //   image.src = person.picture.thumbnail;
+    //   li.appendChild(image);
+    //   info.append(li);
+    // });
 
 
-function fullInfo(personTwo){
-  console.log(personTwo);
-  const li = document.createElement("li");
-  li.appendChild(document.createTextNode(" - " + personTwo.cell));
-  li.appendChild(li);
-}
+
+
 
 
 
