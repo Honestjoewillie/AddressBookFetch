@@ -2,7 +2,7 @@ const addressBook = [];
 
 function get(){
   fetch('https://randomuser.me/api/')
-    .then( response => response.json())
+    .then( res => res.json())
     .then( data => {addressBook.push(data.results["0"])
     })
     //console.log(addressBook)
@@ -30,7 +30,7 @@ function get(){
 function fullInfo(personTwo){
   console.log(personTwo);
   const li = document.createElement("li");
-  li.appendChild(document.createTextNode(" - " + personTwo.cell + " - " + `<br>` + personTwo.dob.age + `<br>` + personTwo.dob.date));
+  li.appendChild(document.createTextNode(" - " + personTwo.cell));
   li.appendChild(li);
 }
 
