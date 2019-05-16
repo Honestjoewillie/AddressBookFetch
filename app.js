@@ -3,7 +3,7 @@ let addressBook = [];
 let addressBookDom = document.querySelector("#people")
 
 function get(){
-  fetch('https://randomuser.me/api/')
+  fetch('https://randomuser.me/api/?results=50')
     .then( res => res.json())
     .then( data => {
       //put data in addressbook
@@ -12,7 +12,7 @@ function get(){
       addressBook.sort((a, b) => a.name.first < b.name.first ? -1 : 1);
       //call my function
       showPeople(addressBook);
-    })
+    });
   }
 
 const showPeople = (array) =>{
@@ -20,24 +20,34 @@ const showPeople = (array) =>{
   array.forEach( (val, idx) =>{
     //where their info is displayed
     person = document.createElement('div');
+    //class id for css use
     person.className = 'book';
     val.gender === 'female' ? person.setAttribute('class', 'female book') : person.setAttribute('class', 'male book');
+    //first show name...then full info but set to NOT display untill the button is pressed
     person.innerHTML =
     `<div class="name">${val.name.first} ${val.name.last}</div>
     <div>
-    <img src="${val.picture.large}">
-    <div class="info_card" id="user${idx}">
-    ${val.email}<br>
-    ${val.phone}<br>
-    ${val.location.street}<br>
-    ${val.location.city}, ${val.location.state}<br>
+      <img src="${val.picture.large}">
+      <div class="info_card" id="user${idx}">
+        ${val.email}<br>
+        ${val.phone}<br>
+        ${val.location.street}<br>
+        ${val.location.city}, ${val.location.state}<br>
+      </div>
     </div>
-    <div>
-      <button onclick="fullInfo(${idx})">Full info</button>
-    </div>`
+      <div>
+       <button onclick="fullInfo(${idx})">Full Info</button>
+      </div>
+      `
+    //put it in the DOM
     addressBookDom.appendChild(person);
-  })
+  });
 }  
+//button function to show FULL info
+const fullInfo = (id) => {
+  let card = document.querySelector(`#user${id}`);
+  card.setAttribute('class', 'show_card');
+}
     //console.log(addressBook)
     
     // .catch( error => console.log("oops, looks like we got an error: ", error))
